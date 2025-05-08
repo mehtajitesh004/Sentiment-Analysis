@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flipkart Review Scraper</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  <!-- Chart.jffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffs CDN -->
+     fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h2 class="text-center">Flipkart Review Scraper</h2>
+        <form method="post" class="mt-4">
+            <div class="mb-3">
+                <label for="product_url" class="form-label">Enter Flipkart Product URL:</label>
+                <input type="text" class="form-control" id="product_url" name="product_url" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Scrape Reviews</button>
+        </form>
+
+        {% if error %}
+            <div class="alert alert-danger mt-3">{{ error }}</div>
+        {% endif %}
+
+        {% if reviews %}
+            <h3 class="mt-4">Sentiment Analysis Pie Chart</h3>
+            <canvas id="sentimentChart" width="300" height="300"></canvas>
+
+<style>
+    #sentimentChart {
+        max-width: 300px;  /* Set max width */
+        max-height: 300px; /* Set max height */
+        margin: auto; /* Center the chart */
+        display: block;
+    }
+</style>
+fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+
+            <script>
+                var ctx = document.getElementById("sentimentChart").getContext("2d");
+                var chart = new Chart(ctx, {
+                    type: "pie",
+                    data: {
+                        labels: ["Positive", "Negative", "Neutral"],
+                        datasets: [{
+                            data: [{{ sentiment_counts["Positive"] }}, {{ sentiment_counts["Negative"] }}, {{ sentiment_counts["Neutral"] }}],
+                            backgroundColor: ["#4CAF50", "#FF5733", "#FFC300"]
+                        }]
+                    }
+                });
+            </script>
+
+            <h3 class="mt-4">Scraped Reviews</h3>
+            <ul class="list-group mt-3">
+                {% for review in reviews %}
+                    <li class="list-group-item">
+                        <strong>Sentiment:</strong> <span class="badge bg-info">{{ review.Sentiment }}</span><br>
+                        {{ review.Review }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</body>
+</html>
